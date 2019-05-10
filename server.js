@@ -20,8 +20,8 @@ io.on("connection", socket => {
         }
       
         async function ls() {
-          await exec('cd ../Compilers && Flex lex.l && bison -d parseryacc.y && gcc -o testFromServer parseryacc.tab.c');
-          const { stdout, stderr } = await exec('cd ../Compilers  && ./testFromServer < input.txt')
+          await exec('cd ../Compilers && Flex lex.l && bison -d parseryacc.y && gcc-8 -o testFromServer.exe parseryacc.tab.c');
+          const { stdout, stderr } = await exec('cd ../Compilers  && testFromServer.exe < input.txt')
           console.log('stdout:', stdout);
           console.log('stderr:', stderr);
 
