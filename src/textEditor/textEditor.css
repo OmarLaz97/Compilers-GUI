@@ -1,0 +1,14 @@
+.box{
+    border: 1px solid black;
+    height:100vh;
+    width: 100% !important;
+}
+
+.left{
+    width:200px !important;
+    height: 100% !important;
+}
+
+.right{
+    height: 100% !important;
+}

@@ -1,0 +1,155 @@
+.line {
+    position: relative;
+  }
+  
+  .line::before {
+    content: attr(data-line-number);
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.5;
+  }
+  
+  .line-text {
+    margin-left: 2em;
+  }
+
+  .text{
+    background-color: white !important;
+    border: none !important;
+    border-radius: 5px;
+  }
+
+  .segment{
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    padding-left: 10px !important;
+    height: 100vh !important;
+    background-image: linear-gradient(to bottom, #ffffff, #f3f3f3, #e7e7e7, #dbdbdb, #cfcfcf) !important;
+    /* background-image: linear-gradient(to bottom, #ffffff, #e0e0e0, #c2c2c2, #a4a4a4, #888888) !important;    */
+   }
+
+  .editor{
+    font-family: 'Source Code Pro', monospace;
+    border: 1px solid #ddd;
+    cursor: "text";
+    font-size: 16px;
+    min-height: auto;
+    max-height: -webkit-fill-available;
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 100%;
+    height:44vh;
+  }
+
+  .editor :global(.public-DraftEditor-content) {
+    max-height: 44vh;    
+    overflow: auto;
+  }
+
+  html, body {margin: 0; height: 100%; overflow: hidden;}
+  .terminal{
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding-top: 5px;
+  }
+
+  .box{
+    border: 1px solid black;
+    height:100vh;
+    width: 100% !important;
+}
+
+.left{
+    width:200px !important;
+    height: 100% !important;
+}
+
+.right{
+    height: 100% !important;
+}
+ 
+.rows{
+  padding: 0px !important;
+}
+
+  .root{
+    font-family: 'Helvetica', sans-serif;
+    padding: 5px;
+    width: 100%;
+    max-height: -webkit-fill-available;
+  }
+
+  .zigzag {
+    display: inline-block;
+    position: relative;
+  }
+  .zigzag:after {
+    content: '';
+    margin-top : -20px;
+    height: 5px;
+    width: 100%;
+    position: absolute;
+    background: url("https://cldup.com/MiGVGBh-0U.png");
+    background-size: 8px;
+    top: 35px;
+    bottom: 0px;
+    left: 0;
+    -webkit-animation: zigzagPlay 2s infinite linear;
+    -moz-animation: zigzagPlay 2s infinite linear;
+    -ms-animation: zigzagPlay 2s infinite linear;
+    -o-animation: zigzagPlay 2s infinite linear;
+    animation: zigzagPlay 2s infinite linear;
+    -webkit-animation-play-state: paused;
+    -moz-animation-play-state: paused;
+    -o-animation-play-state: paused;
+    animation-play-state: paused;
+  }
+  .zigzag:after {
+    -webkit-animation-play-state: running;
+    -moz-animation-play-state: running;
+    -o-animation-play-state: running;
+    animation-play-state: running;
+  }
+  @-webkit-keyframes zigzagPlay {
+    0% {
+      background-position: 0px;
+    }
+    100% {
+      background-position: -96px;
+    }
+  }
+  @-moz-keyframes zigzagPlay {
+    0% {
+      background-position: 0px;
+    }
+    100% {
+      background-position: -96px;
+    }
+  }
+  @-ms-keyframes zigzagPlay {
+    0% {
+      background-position: 0px;
+    }
+    100% {
+      background-position: -96px;
+    }
+  }
+  @-o-keyframes zigzagPlay {
+    0% {
+      background-position: 0px;
+    }
+    100% {
+      background-position: -96px;
+    }
+  }
+  @keyframes zigzagPlay {
+    0% {
+      background-position: 0px;
+    }
+    100% {
+      background-position: -96px;
+    }
+  }
