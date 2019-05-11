@@ -22,7 +22,6 @@ const { hasCommandModifier } = KeyBindingUtil;
 
 const io = require("socket.io-client");
 
-
 const blockRendererFn = () => ({
   component: Line
 });
@@ -141,32 +140,30 @@ class PageContainer extends React.Component {
 
     this.state = {
       editorState: EditorState.createEmpty(compositeDecorator),
-      editorState1: EditorState.createWithContent(
-        ContentState.createFromText("Accepted Inshallah...")
-      )
+      editorState1: EditorState.createEmpty(),
+      editorState3: EditorState.createEmpty()
     };
 
     this.focus = () => this.refs.editor.focus();
     this.focus1 = () => this.refs.terminal.focus();
+    this.focus3 = () => this.refs.assembly.focus();
     this.onChange = editorState => this.setState({ editorState: editorState });
     this.onChange1 = editorState1 =>
       this.setState({ editorState1: editorState1 });
+    this.onChange3 = editorState3 =>
+      this.setState({ editorState3: editorState3 });
   }
 
-
-  componentWillMount(){
-
+  componentWillMount() {
     this.socket = io("http://localhost:8080");
 
-
-      this.socket.on("output" , data => {
-      if(data.false === ""){
+    this.socket.on("output", data => {
+      if (data.false === "") {
         this.replaceDataFunction(data.correct);
-      }else{
+      } else {
         this.replaceDataFunction(data.false);
       }
-      
-    })
+    });
   }
 
   myKeyBindingFn = e => {
@@ -189,32 +186,31 @@ class PageContainer extends React.Component {
     return "not-handled";
   };
 
-  replaceDataFunction = (data) => {
-      const currentContent = this.state.editorState.getCurrentContent();
-      const firstBlock = currentContent.getBlockMap().first();
-      const lastBlock = currentContent.getBlockMap().last();
-      const firstBlockKey = firstBlock.getKey();
-      const lastBlockKey = lastBlock.getKey();
-      const lengthOfLastBlock = lastBlock.getLength();
+  replaceDataFunction = data => {
+    const currentContent = this.state.editorState.getCurrentContent();
+    const firstBlock = currentContent.getBlockMap().first();
+    const lastBlock = currentContent.getBlockMap().last();
+    const firstBlockKey = firstBlock.getKey();
+    const lastBlockKey = lastBlock.getKey();
+    const lengthOfLastBlock = lastBlock.getLength();
 
-      const selection = new SelectionState({
-        anchorKey: firstBlockKey,
-        anchorOffset: 0,
-        focusKey: lastBlockKey,
-        focusOffset: lengthOfLastBlock
-      });
+    const selection = new SelectionState({
+      anchorKey: firstBlockKey,
+      anchorOffset: 0,
+      focusKey: lastBlockKey,
+      focusOffset: lengthOfLastBlock
+    });
 
-      const NewcurrentContent = Modifier.replaceText(
-        currentContent,
-        selection,
-        data,
-      )
+    const NewcurrentContent = Modifier.replaceText(
+      currentContent,
+      selection,
+      data
+    );
 
-      this.setState({
-        editorState1: EditorState.push(this.state.editorState1, NewcurrentContent)
-      });
-
-  }
+    this.setState({
+      editorState1: EditorState.push(this.state.editorState1, NewcurrentContent)
+    });
+  };
 
   _onTab = e => {
     e.preventDefault();
@@ -236,59 +232,89 @@ class PageContainer extends React.Component {
 
   render() {
     return (
-      <Grid columns={1}>
-        <Grid.Column>
-          <Segment raised>
-            <Image src="/images/wireframe/paragraph.png" />
-            <Label as="a" color="white" ribbon>
-              Text Editor
-            </Label>
-            <span>
-              <div className="root">
-                <div
-                  className="editor text"
-                  onClick={this.focus}
-                  id="formToSave"
-                >
-                  <Editor
-                    editorState={this.state.editorState}
-                    onChange={this.onChange}
-                    onTab={this._onTab}
-                    ref="editor"
-                    textAlignment="left"
-                    blockRendererFn={blockRendererFn}
-                    handleKeyCommand={this.handleKeyCommand}
-                    keyBindingFn={this.myKeyBindingFn}
-                  />
-                </div>
-              </div>
-            </span>
+      <div className="d-flex flex-row bd-highlight mb-3 ">
+        <div className="p-2 flex-md-row bd-highlight LeftSide">
+          <Grid columns={1}>
+            <Grid.Column>
+              <Segment raised>
+                <Image src="/images/wireframe/paragraph.png" />
+                <Label as="a" color="white" ribbon>
+                  Machine Language
+                </Label>
+                <span>
+                  <div className="root">
+                    <div className="editorLeft text" onClick={this.focus3}>
+                      <Editor
+                        readOnly="true"
+                        editorState={this.state.editorState3}
+                        onChange={this.onChange3}
+                        ref="assembly"
+                        textAlignment="left"
+                        blockRendererFn={blockRendererFn}
+                      />
+                    </div>
+                  </div>
+                </span>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </div>
+        <div className="p-2 bd-highlight rigthSide">
+          <Grid columns={1}>
+            <Grid.Column>
+              <Segment raised>
+                <Image src="/images/wireframe/paragraph.png" />
+                <Label as="a" color="white" ribbon>
+                  Text Editor
+                </Label>
+                <span>
+                  <div className="root">
+                    <div
+                      className="editor text"
+                      onClick={this.focus}
+                      id="formToSave"
+                    >
+                      <Editor
+                        editorState={this.state.editorState}
+                        onChange={this.onChange}
+                        onTab={this._onTab}
+                        ref="editor"
+                        textAlignment="left"
+                        blockRendererFn={blockRendererFn}
+                        handleKeyCommand={this.handleKeyCommand}
+                        keyBindingFn={this.myKeyBindingFn}
+                      />
+                    </div>
+                  </div>
+                </span>
 
-            <Image src="/images/wireframe/paragraph.png" />
-            <Label as="a" color="black" ribbon>
-              Terminal
-            </Label>
-            <span>
-              <div className="root">
-                <div
-                  className="editor terminal"
-                  onClick={this.focus1}
-                  id="formToSave"
-                >
-                  <Editor
-                    editorState={this.state.editorState1}
-                    onChange={this.onChange1}
-                    ref="terminal"
-                    textAlignment="left"
-                    blockRendererFn={blockRendererFn}
-                    value="Accepted inshallah"
-                  />
-                </div>
-              </div>
-            </span>
-          </Segment>
-        </Grid.Column>
-      </Grid>
+                <Image src="/images/wireframe/paragraph.png" />
+                <Label as="a" color="black" ribbon>
+                  Terminal
+                </Label>
+                <span>
+                  <div className="root">
+                    <div
+                      className="editor terminal"
+                      onClick={this.focus1}
+                      id="formToSave"
+                    >
+                      <Editor
+                        readOnly="true"
+                        editorState={this.state.editorState1}
+                        onChange={this.onChange1}
+                        ref="terminal"
+                        textAlignment="left"
+                        blockRendererFn={blockRendererFn}
+                      />
+                    </div>
+                  </div>
+                </span>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </div>
+      </div>
     );
   }
 }
