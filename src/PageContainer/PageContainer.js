@@ -71,6 +71,14 @@ class PageContainer extends React.Component {
         component: erroridSpan
       },
       {
+        strategy: charValueStrategy,
+        component: charValueSpan
+      },
+      {
+        strategy: stringValueStrategy,
+        component: stringValueSpan
+      },
+      {
         strategy: floatValue1Strategy,
         component: floatValue1Span
       },
@@ -78,10 +86,7 @@ class PageContainer extends React.Component {
         strategy: intValueStrategy,
         component: intValueSpan
       },
-      {
-        strategy: stringValueStrategy,
-        component: stringValueSpan
-      },
+      
       {
         strategy: ifStrategy,
         component: ifSpan
@@ -129,10 +134,6 @@ class PageContainer extends React.Component {
       {
         strategy: idStrategy,
         component: idSpan
-      },
-      {
-        strategy: charValueStrategy,
-        component: charValueSpan
       },
       {
         strategy: errorDotWordsStrategy,
