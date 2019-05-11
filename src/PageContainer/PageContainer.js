@@ -167,6 +167,10 @@ class PageContainer extends React.Component {
         this.replaceDataFunction(data.false);
       }
     });
+
+    this.socket.on("file" , fileContent => {
+      this.replaceDataFunction1(fileContent);
+    })
   }
 
   myKeyBindingFn = e => {
@@ -225,6 +229,32 @@ class PageContainer extends React.Component {
     });
   };
 
+  replaceDataFunction1 = data => {
+    const currentContent = this.state.editorState3.getCurrentContent();
+    const firstBlock = currentContent.getBlockMap().first();
+    const lastBlock = currentContent.getBlockMap().last();
+    const firstBlockKey = firstBlock.getKey();
+    const lastBlockKey = lastBlock.getKey();
+    const lengthOfLastBlock = lastBlock.getLength();
+
+    const selection = new SelectionState({
+      anchorKey: firstBlockKey,
+      anchorOffset: 0,
+      focusKey: lastBlockKey,
+      focusOffset: lengthOfLastBlock
+    });
+
+    const NewcurrentContent = Modifier.replaceText(
+      currentContent,
+      selection,
+      data
+    );
+
+    this.setState({
+      editorState3: EditorState.push(this.state.editorState3, NewcurrentContent)
+    });
+  };
+
   _onTab = e => {
     e.preventDefault();
     let currentState = this.state.editorState;
@@ -277,7 +307,7 @@ class PageContainer extends React.Component {
             <Grid.Column>
               <Segment raised>
                 <Image src="/images/wireframe/paragraph.png" />
-                <Label as="a" color="white" ribbon>
+                <Label as="a" color="white" ribbon onClick={this.focus}>
                   Text Editor
                 </Label>
                 <Button animated="vertical" className="compile" onClick={this.compileClick}>

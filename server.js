@@ -20,14 +20,26 @@ io.on("connection", socket => {
         }
       
         async function ls() {
-          await exec('cd ../Compilers && Flex lex.l && bison -d parseryacc.y && gcc -o testFromServer.exe parseryacc.tab.c');
+
+          fs.unlink("../Compilers/file.txt",(err) => {
+            console.log(err);
+          })
+
+          await exec('cd ../Compilers && Flex lex.l && bison -d ParserYacc.y && gcc -o testFromServer.exe ParserYacc.tab.c');
           const { stdout, stderr } = await exec('cd ../Compilers  && testFromServer.exe < input.txt')
-          console.log('stdout:', stdout);
-          console.log('stderr:', stderr);
+          
+          //console.log('stdout:', stdout);
+          //console.log('stderr:', stderr);
 
           socket.emit("output" , {correct : stdout , false : stderr});
         }
-        ls();
+        ls().then(()=>{
+          fs.readFile("../Compilers/file.txt", 'utf8', function(err, contents) {
+            //console.log(contents);
+            socket.emit("file" , contents);
+        });
+    
+        });
     });
   });
 });
