@@ -10,6 +10,8 @@ import {
   SelectionState
 } from "draft-js";
 
+import { Button, Icon } from "semantic-ui-react";
+
 import * as Regex from "../lex/lex";
 import Line from "./line";
 import { Grid, Image, Label, Segment } from "semantic-ui-react";
@@ -53,9 +55,17 @@ class PageContainer extends React.Component {
         component: gomlaSpan
       },
       {
-        strategy: errorFloatWordsStrategy,
-        component: errorFloatWordsSpan
+        strategy: charStrategy,
+        component: charSpan
       },
+      {
+        strategy: boolStrategy,
+        component: boolSpan
+      },
+      // {
+      //   strategy: errorFloatWordsStrategy,
+      //   component: errorFloatWordsSpan
+      // },
       {
         strategy: erroridStrategy,
         component: erroridSpan
@@ -71,14 +81,6 @@ class PageContainer extends React.Component {
       {
         strategy: stringValueStrategy,
         component: stringValueSpan
-      },
-      {
-        strategy: charStrategy,
-        component: charSpan
-      },
-      {
-        strategy: boolStrategy,
-        component: boolSpan
       },
       {
         strategy: ifStrategy,
@@ -186,6 +188,16 @@ class PageContainer extends React.Component {
     return "not-handled";
   };
 
+  compileClick = e => {
+    e.preventDefault();
+    const blocks = convertToRaw(this.state.editorState.getCurrentContent())
+      .blocks;
+    const value = blocks
+      .map(block => (!block.text.trim() && "\n") || block.text)
+      .join("\n");
+    this.socket.emit("file", value);
+  };
+
   replaceDataFunction = data => {
     const currentContent = this.state.editorState.getCurrentContent();
     const firstBlock = currentContent.getBlockMap().first();
@@ -267,6 +279,12 @@ class PageContainer extends React.Component {
                 <Label as="a" color="white" ribbon>
                   Text Editor
                 </Label>
+                <Button animated="vertical" className="compile" onClick={this.compileClick}>
+                  <Button.Content visible className="buttonText">Compile</Button.Content>
+                  <Button.Content hidden>
+                    <Icon name="arrow down" />
+                  </Button.Content>
+                </Button>
                 <span>
                   <div className="root">
                     <div
@@ -415,9 +433,9 @@ function errorDotWordsStrategy(contentBlock, callback, contentState) {
   findWithRegex(Regex.ERROR_WORDS_DOT, contentBlock, callback);
 }
 
-function errorFloatWordsStrategy(contentBlock, callback, contentState) {
-  findWithRegex(Regex.ERROR_FLOAT_WORDS, contentBlock, callback);
-}
+// function errorFloatWordsStrategy(contentBlock, callback, contentState) {
+//   findWithRegex(Regex.ERROR_FLOAT_WORDS, contentBlock, callback);
+// }
 
 function erroridStrategy(contentBlock, callback, contentState) {
   findWithRegex(Regex.ERROR_IDENTIFIER, contentBlock, callback);

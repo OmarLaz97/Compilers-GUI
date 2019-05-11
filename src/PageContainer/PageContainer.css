@@ -104,6 +104,23 @@ body {
   width: 100% !important;
 }
 
+.compile{
+  float: right;
+  margin-right: 5px;
+  height: 10px !important;
+}
+
+.ui.animated.button{
+  height: 27px !important;
+  width: auto !important;
+  margin-right: 5px !important;
+  padding-bottom: 3px !important;
+  padding-top: 3px !important;
+  background-color: rgb(238, 236, 236);
+  color: black;
+  font-size: small;
+}
+
 .left {
   width: 200px !important;
   height: 100% !important;

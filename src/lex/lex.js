@@ -22,5 +22,5 @@ export const CHARVALUE = / \'[a-zA-Z0-9]\'/g
 export const COMMENT = /(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(\/\/.*)/g
 export const IDENTIFIER  = /[a-zA-Z][_a-zA-Z0-9]*/g;
 export const ERROR_IDENTIFIER = /\b([0-9]+[a-zA-Z]+)\b/g
-export const ERROR_FLOAT_WORDS = /(([0-9]+)(\.[0-9]+)([_a-zA-Z0-9\.]+))/g;
+// export const ERROR_FLOAT_WORDS //= /(([0-9]+)(\.[0-9]+)([a-zA-Z0-9]+))/g;
 export const ERROR_WORDS_DOT = /([a-zA-Z][_a-zA-Z0-9]*\.[_a-zA-Z0-9]*)/g; 

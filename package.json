@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/draft-js": "^0.10.31",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.3.1",
     "draft-js": "^0.10.5",
     "draft-js-buttons": "^2.0.1",
     "draft-js-plugins-editor": "^2.1.1",
     "draft-js-side-toolbar-plugin": "^3.0.1",
+    "draft-js-static-toolbar-plugin": "^3.0.0",
     "file-system": "^2.2.2",
     "immutable": "^4.0.0-rc.12",
     "react": "^16.8.6",
@@ -35,5 +37,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "css-loader": "^2.1.1",
+    "style-loader": "^0.23.1"
+  }
 }
