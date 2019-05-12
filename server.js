@@ -27,8 +27,8 @@ io.on("connection", socket => {
 
           fs.writeFile('../Compilers/file.txt', '', function(){console.log('done')})
 
-          await exec('cd ../Compilers && Flex lex.l && bison -d ParserYacc.y && gcc-8 -o testFromServer ParserYacc.tab.c');
-          const { stdout, stderr } = await exec('cd ../Compilers  && ./testFromServer < input.txt')
+          await exec('cd ../Compilers && Flex lex.l && bison -d ParserYacc.y && gcc -o testFromServer.exe ParserYacc.tab.c');
+          const { stdout, stderr } = await exec('cd ../Compilers  && testFromServer.exe < input.txt')
           
           //console.log('stdout:', stdout);
           //console.log('stderr:', stderr);
