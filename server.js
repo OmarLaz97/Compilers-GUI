@@ -21,12 +21,14 @@ io.on("connection", socket => {
       
         async function ls() {
 
-          fs.unlink("../Compilers/file.txt",(err) => {
-            console.log(err);
-          })
+          // fs.unlink("../Compilers/file.txt",(err) => {
+          //   console.log(err);
+          // })
 
-          await exec('cd ../Compilers && Flex lex.l && bison -d ParserYacc.y && gcc -o testFromServer.exe ParserYacc.tab.c');
-          const { stdout, stderr } = await exec('cd ../Compilers  && testFromServer.exe < input.txt')
+          fs.writeFile('../Compilers/file.txt', '', function(){console.log('done')})
+
+          await exec('cd ../Compilers && Flex lex.l && bison -d ParserYacc.y && gcc-8 -o testFromServer ParserYacc.tab.c');
+          const { stdout, stderr } = await exec('cd ../Compilers  && ./testFromServer < input.txt')
           
           //console.log('stdout:', stdout);
           //console.log('stderr:', stderr);
@@ -34,10 +36,22 @@ io.on("connection", socket => {
           socket.emit("output" , {correct : stdout , false : stderr});
         }
         ls().then(()=>{
-          fs.readFile("../Compilers/file.txt", 'utf8', function(err, contents) {
-            //console.log(contents);
-            socket.emit("file" , contents);
-        });
+        //   fs.readFile("../Compilers/file.txt", 'utf8', function(err, contents) {
+        //     //console.log(contents);
+        //     try{
+        //     socket.emit("file" , contents);
+
+        //     }catch(err){
+        //       console.log(err);
+        //     }
+        // });
+
+        try{
+          var contents = fs.readFileSync('../Compilers/file.txt', 'utf8');
+          socket.emit("file" , contents);
+        }catch(err){
+          console.log(err)
+        }
     
         });
     });
